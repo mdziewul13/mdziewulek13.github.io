@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Programowanie Geoportali</title>
+        <meta name="description" content="Strona edukacyjna poświęcona analizom terenu stanowiąca część projektu"/>
+         <meta name="keywords" content='geodezja, geoinformatyka, topografia, kartografia'/>
+         <meta name="author" content="Magdalena"/>
+
+         <link rel="preconnect" href="https://fonts.googleapis.com">
+         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">  
+         <link rel="preconnect" href="https://fonts.googleapis.com"> 
+         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+         <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;1,700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet"> 
+        
+         <link rel="stylesheet" href="../lib/leaflet/leaflet.css"/>
+         <link rel="stylesheet" href="../main.css"/>
+
+         <link rel= "stylesheet" href="./mapa.css">
+    </head>
+    <body>
+        <header>
+                <div id ="logotyp">
+                    <h1 class="logo">
+                        <span style="color:#2a5daf">
+                        PR</span>OGRAMOWANIE                      
+                        <span style="color:#2a5daf">
+                        GE</span>OPORTALI
+                    </h1>
+                </div>
+        </header>
+        <nav>
+            <ul class="menu">
+                <li><a href='#'>Strona główna</a></li>
+                <li><a href='#'>O projekcie</a></li>
+                <li><a href='#'>Materiały</a></li>
+                <li><a href='#'>Kontakt</a></li>
+            </ul>
+        </nav>
+    
+        <!-- tutaj zaczyna się treść strony  -->
+    <div class="container">
+        <h2>Aktualności z wojny na Ukrainie</h2>
+
+        <button id = "button_open_modal">Dodaj zdarzenie</button>
+    
+        <div class = "modalBox">
+
+            <button class ="button_close_modal">X</button>
+
+            <form id ="modal_do_wprowadzania_danych">
+                <h3> WPROWADŹ PONIŻSZE INFORMACJE</h3>
+                <label for="object_id">Identyfikator:</label>
+                <input type="text" id="object_id" name="object_id" value='CIV999'/>
+
+                <label for="object_date">Data zdarzenia:</label>
+                <input type="text" id="object_date" name="object_date" value='02/24/2022'/>
+
+                <label for="object_lat">Szerokość geograficzna:</label>
+                <input type="text" id="object_lat" name="object_lat" value='52.207079800667884'/>
+
+                <label for="object_lng">Długość geograficzna:</label>
+                <input type="text" id="object_lng" name="object_lng" value='21.384250170978298'/>
+
+                <label for="object_location">Miejsce zdarzenia:</label>
+                <input type="text" id="object_location" name="object_location" value='Wielgolas Brzeziński'/>
+
+                <label for="object_description">Opis zdarzenia:</label>
+                <input type="text" id="object_description" name="object_description" value='Tutaj mnie znajdziesz ;)'/>
+
+                <label for="object_sources">Źródło informacji o zdarzeniu:</label>
+                <input type="text" id="object_sources" name="object_sources" value='Opracowanie własne'/>
+                <br/>
+            <button type="submit" value="submit" id="data_save">Zapisz</button>
+            </form>
+        </div>
+        
+        <!--modal do edycji danych -->
+
+            <div class = "modalBox_edit">
+
+                <button class ="button_close_modal">X</button>
+    
+                <form id ="modal_do_edytowania_danych">
+                    <h3> EDYTUJ AKTUALNOŚC</h3>
+                    <label for="object_id_edit">Identyfikator:</label>
+                    <input type="text" id="object_id_edit" name="object_id" value='CIV999'/>
+    
+                    <label for="object_date_edit">Data zdarzenia:</label>
+                    <input type="text" id="object_date_edit" name="object_date" value='02/24/2022'/>
+    
+                    <label for="object_lat_edit">Szerokość geograficzna:</label>
+                    <input type="text" id="object_lat_edit" name="object_lat" value='52.207079800667884'/>
+    
+                    <label for="object_lng_edit">Długość geograficzna:</label>
+                    <input type="text" id="object_lng_edit" name="object_lng" value='21.384250170978298'/>
+    
+                    <label for="object_location_edit">Miejsce zdarzenia:</label>
+                    <input type="text" id="object_location_edit" name="object_location" value='Wielgolas Brzeziński'/>
+    
+                    <label for="object_description_edit">Opis zdarzenia:</label>
+                    <input type="text" id="object_description_edit" name="object_description" value='Tutaj mnie znajdziesz ;)'/>
+    
+                    <label for="object_sources_edit">Źródło informacji o zdarzeniu:</label>
+                    <input type="text" id="object_sources_edit" name="object_sources" value='Opracowanie własne'/>
+                    <br/>
+                <button type="submit" value="submit" id="save_edits">Zapisz_zmiany</button>
+                <button type="submit" value="submit" class="button_close_modal">Odrzuć_zmiany</button>
+                </form>
+            </div>
+
+        <div id="lista">
+          
+          <div id="obiekty"></div>
+          <!--to dodane -->
+        </div>
+
+            <!-- <ul>
+                <li> Wybuch w Kijowie </li>
+                <li> Wybuch w Lwowie </li>
+                <li> Wybuch w Mariupol </li>
+            </ul>--> 
+
+            <!-- stylizacja-->
+            <div id="mymap"> </div> 
+        
+        </div> <!--to przesunięte z dołu -->
+        <div class="sliderContainer">
+          <input
+            type="range"
+            min="1"
+            max="30"
+            value="10"
+            class="slider"
+            id="myRange"
+          />
+        </div>
+
+        <script src="../lib/leaflet/leaflet.js"></script>
+        <script src="../lib/jquery-3.6.0.js"></script>
+        <script src="./mapa.js"></script>
+        <script src="./aktualnosci.js"></script>
+
+    </body>
+
+</html>
