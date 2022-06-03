@@ -93,6 +93,31 @@ $(document).ready(function () {
     $("#modal_do_wprowadzania_danych").append(`<h2>Dane wprowadzono</h2>`);
   });
 
+  
+  // lokalizacja
+  mymap.locate({setView: true, maxZoom: 10});
+
+  //można dodać algorytm astat (pozycjonowanie hindus) 
+  //function nazwaFunckji(argument/parametr){return parametr+2}
+    function onLocationFound(e) {
+      let radius = e.accuracy /2; // szerokość wielkosć markera lokalizacji na podstawie geokodowania sieci na której się logujemy/ wilekoś m markera proporcjonalna do lokalizacji
+      L.marker(e.latlng) 
+      .addTo(mymap)
+      .bindPopup(`Znajdujesz się w promieniu ${radius} metrów od tego punktu`) // parametry to dajemy ` a do tekstu '
+      .openPopup();
+    L.circle(e.latlng, radius).addTo(mymap);
+     }
+     
+     function onLocationError(e) {
+      alert(e.message);
+    }
+
+  function onLocationError(e) {
+    alert(e.message);
+  }
+  mymap.on("locationerror", onLocationError);
+  mymap.on("locationfound", onLocationFound);
+  
   let layer_group;
   let filtered = [];
   // generowanie listy wszystkich dat
